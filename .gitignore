@@ -34,3 +34,15 @@ replay_pid*
 
 # macOS
 .DS_Store
+
+# Signing keys
+*.jks
+*.keystore
+key.properties
+
+# Firebase Admin/service account
+service-account*.json
+*-firebase-adminsdk-*.json
+
+# Firebase local emulator
+.firebase/

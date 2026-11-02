@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,13 +47,13 @@ import com.uthtodo.app.ui.components.WelcomeIllustration
 import kotlinx.coroutines.delay
 
 @Composable
-fun WelcomeScreen(onFinished: () -> Unit, previewPage: Int? = null) {
-    var showSplash by remember { androidx.compose.runtime.mutableStateOf(previewPage == null) }
+fun WelcomeScreen(onFinished: () -> Unit, previewPage: Int? = null, includeSplash: Boolean = true) {
+    var showSplash by remember { androidx.compose.runtime.mutableStateOf(previewPage == null && includeSplash) }
     var pageIndex by remember { mutableIntStateOf(previewPage ?: 0) }
     val pages = listOf(OnboardingPage.AllInOne, OnboardingPage.Categories, OnboardingPage.Reminder)
 
-    LaunchedEffect(previewPage) {
-        if (previewPage == null) {
+    LaunchedEffect(previewPage, includeSplash) {
+        if (previewPage == null && includeSplash) {
             delay(1200)
             showSplash = false
         }
@@ -77,7 +78,9 @@ fun WelcomeScreen(onFinished: () -> Unit, previewPage: Int? = null) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     BrandMark()
                     Spacer(Modifier.weight(1f))
-                    Text("Bỏ qua", color = WelcomeBrand.muted, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    TextButton(onClick = onFinished) {
+                        Text("Bỏ qua", color = WelcomeBrand.muted, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    }
                 }
 
                 Spacer(Modifier.height(50.dp))
